@@ -1,0 +1,241 @@
+
+//moving a car  by code
+const int in1 = 5;
+const int in2 = 6;
+const int in3 = 9;
+const int in4 = 10;
+
+void setup() {
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+}
+
+void loop() {
+  moveForward();
+  delay(2000);
+  stopMove();
+  delay(500);
+
+  moveBackward();
+  delay(2000);
+  stopMove();
+  delay(500);
+
+  turnLeft();
+  delay(2000);
+  stopMove();
+  delay(500);
+
+  turnRight();
+  delay(2000);
+  stopMove();
+  delay(500);
+}
+
+void moveForward() {
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+}
+
+void moveBackward() {
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+}
+
+void turnRight() {
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+}
+
+void turnLeft() {
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+}
+
+void stopMove() {
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+}
+
+//speed up code
+
+const int in1 = 5;
+const int in2 = 6;
+const int in3 = 9;
+const int in4 = 10;
+
+void setup() {
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+}
+
+void loop() {
+  for(int i=0;i<=255;i+=5){
+    moveForward(i);
+    delay(500);
+  }
+  for(int i=255;i>=0;i-=5){
+    moveForward(i);
+    delay(500);
+  }
+}
+
+void moveForward(int speed) {
+  analogWrite(in1, 0);
+  analogWrite(in2, speed);
+  analogWrite(in3, speed);
+  analogWrite(in4, 0);
+}
+//move up car code
+const int in1 = 5;
+const int in2 = 6;
+const int in3 = 9;
+const int in4 = 10;
+
+void setup() {
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+}
+
+void loop() {
+  moveForward();
+  delay(2000);
+  stopMove();
+  delay(500);
+
+  moveBackward();
+  delay(2000);
+  stopMove();
+  delay(500);
+
+  turnLeft();
+  delay(2000);
+  stopMove();
+  delay(500);
+
+  turnRight();
+  delay(2000);
+  stopMove();
+  delay(500);
+}
+
+void moveForward() {
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+}
+
+void moveBackward() {
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+}
+
+void turnRight() {
+  digitalWrite(in1, HIGH);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, HIGH);
+  digitalWrite(in4, LOW);
+}
+
+void turnLeft() {
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, HIGH);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, HIGH);
+}
+
+void stopMove() {
+  digitalWrite(in1, LOW);
+  digitalWrite(in2, LOW);
+  digitalWrite(in3, LOW);
+  digitalWrite(in4, LOW);
+}
+//obstacle avoidance code
+const int in1 = 5;
+const int in2 = 6;
+const int in3 = 9;
+const int in4 = 10;
+
+const int rightIR = 7;
+const int leftIR = 8;
+
+void setup() {
+  Serial.begin(9600);
+
+  //motor
+  pinMode(in1, OUTPUT);
+  pinMode(in2, OUTPUT);
+  pinMode(in3, OUTPUT);
+  pinMode(in4, OUTPUT);
+
+  //IR obstacle
+  pinMode(leftIR, INPUT);
+  pinMode(rightIR, INPUT);
+
+}
+
+void loop() {
+
+  int left = digitalRead(leftIR);  // 0: Obstructed   1: Empty
+  int right = digitalRead(rightIR);
+  int speed = 150;
+
+  if (!left && right) {
+    backLeft(speed);
+  } else if (left && !right) {
+    backRight(speed);
+  } else if (!left && !right) {
+    moveBackward(speed);
+  } else {
+    moveForward(speed);
+  }
+}
+
+void moveForward(int speed) {
+  analogWrite(in1, 0);
+  analogWrite(in2, speed);
+  analogWrite(in3, speed);
+  analogWrite(in4, 0);
+}
+
+void moveBackward(int speed) {
+  analogWrite(in1, speed);
+  analogWrite(in2, 0);
+  analogWrite(in3, 0);
+  analogWrite(in4, speed);
+}
+
+void backLeft(int speed) {
+  analogWrite(in1, speed);
+  analogWrite(in2, 0);
+  analogWrite(in3, 0);
+  analogWrite(in4, 0);
+}
+
+void backRight(int speed) {
+  analogWrite(in1, 0);
+  analogWrite(in2, 0);
+  analogWrite(in3, 0);
+  analogWrite(in4, speed);
+}
+
+ 

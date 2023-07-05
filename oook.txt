@@ -1,0 +1,142 @@
+//question #1
+import java.io.*;
+import java.io.*;
+import java.util.Scanner;
+class Person implements Serializable {
+    public String name;
+
+    public Person() {
+
+    }
+
+    public Person(String n) {
+        name = n;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return ("Name: " + name);
+    }
+}
+
+class Book implements Serializable {
+    public Person name;
+    public String publisher;
+    public String author;
+
+    public void setDetails(Person name, String publisher, String author) {
+        this.name = name;
+        this.publisher = publisher;
+        this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return ("Name: " + name + ", Publisher: " + publisher + ", Author: " + author);
+    }
+}
+
+class ObjectOutputStreamExample {
+    public void writeToFile() {
+        try {
+            Person person = new Person("John");
+            Book book = new Book();
+            book.setDetails(person, "ABC Publications", "Jane Doe");
+
+            ObjectOutputStream objectOutputStream = new ObjectOutputStream(new FileOutputStream("hello.txt"));
+            objectOutputStream.writeObject(book);
+            objectOutputStream.close();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+//question# 2
+class ObjectInputStreamExample {
+    public void readToFile() {
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("hello.txt"));
+            Book book = (Book) objectInputStream.readObject();
+            System.out.println(book);
+            objectInputStream.close();
+        } catch (EOFException ex) {
+            System.out.println("End of file reached.");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+}
+
+public class person {
+    public static void main(String[] args) {
+        ObjectOutputStreamExample o1 = new ObjectOutputStreamExample();
+        o1.writeToFile();
+
+        ObjectInputStreamExample o2 = new ObjectInputStreamExample();
+        o2.readToFile();
+    }
+}
+//question#3
+
+
+class Book implements Serializable {
+    public String name;
+    public String publisher;
+    public String author;
+
+    public void setDetails(String name, String publisher, String author) {
+        this.name = name;
+        this.publisher = publisher;
+        this.author = author;
+    }
+
+    @Override
+    public String toString() {
+        return ("Name: " + name + ", Publisher: " + publisher + ", Author: " + author);
+    }
+}
+
+public class Main {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the name of the book to search: ");
+        String searchBookName = scanner.nextLine();
+
+        try {
+            ObjectInputStream objectInputStream = new ObjectInputStream(new FileInputStream("BookStore"));
+            boolean found = false;
+
+            while (true) {
+                Book book = (Book) objectInputStream.readObject();
+
+                if (book.name.equalsIgnoreCase(searchBookName)) {
+                    System.out.println("Book found:");
+                    System.out.println(book);
+                    found = true;
+                    break;
+                }
+            }
+
+            if (!found) {
+                System.out.println("Book not found.");
+            }
+
+            objectInputStream.close();
+        } catch (EOFException ex) {
+            System.out.println("End of file reached.");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } catch (ClassNotFoundException ex) {
+            ex.printStackTrace();
+        }
+    }
+}

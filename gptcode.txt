@@ -1,0 +1,87 @@
+//gpt rc car code
+// Motor pin definitions
+const int motor1Pin1 = 2;
+const int motor1Pin2 = 3;
+const int motor2Pin1 = 4;
+const int motor2Pin2 = 5;
+
+// Bluetooth module pin definitions
+const int bluetoothRxPin = 10; // RX pin of Bluetooth module connected to Arduino TX pin
+const int bluetoothTxPin = 11; // TX pin of Bluetooth module connected to Arduino RX pin
+
+// Variable to store received commands from Bluetooth module
+char command;
+
+void setup() {
+  // Initialize motor control pins
+  pinMode(motor1Pin1, OUTPUT);
+  pinMode(motor1Pin2, OUTPUT);
+  pinMode(motor2Pin1, OUTPUT);
+  pinMode(motor2Pin2, OUTPUT);
+  
+  // Initialize Bluetooth module
+  Serial.begin(9600); // Set the baud rate for Bluetooth communication
+  Serial1.begin(9600); // Set the baud rate for Serial communication with Bluetooth module
+  
+  // Additional setup code if needed
+}
+
+void loop() {
+  if (Serial1.available()) {
+    command = Serial1.read(); // Read the received command from Bluetooth module
+    
+    // Control the motors based on the received command
+    switch (command) {
+      case 'F':
+        moveForward();
+        break;
+      case 'B':
+        moveBackward();
+        break;
+      case 'L':
+        turnLeft();
+        break;
+      case 'R':
+        turnRight();
+        break;
+      case 'S':
+        stopMotors();
+        break;
+    }
+  }
+}
+
+void moveForward() {
+  digitalWrite(motor1Pin1, HIGH);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor2Pin1, HIGH);
+  digitalWrite(motor2Pin2, LOW);
+}
+
+void moveBackward() {
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, HIGH);
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, HIGH);
+}
+
+void turnLeft() {
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, HIGH);
+  digitalWrite(motor2Pin1, HIGH);
+  digitalWrite(motor2Pin2, LOW);
+}
+
+void turnRight() {
+  digitalWrite(motor1Pin1, HIGH);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, HIGH);
+}
+
+void stopMotors() {
+  digitalWrite(motor1Pin1, LOW);
+  digitalWrite(motor1Pin2, LOW);
+  digitalWrite(motor2Pin1, LOW);
+  digitalWrite(motor2Pin2, LOW);
+}
